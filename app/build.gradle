@@ -46,7 +46,7 @@ android {
 
         applicationVariants.all { variant ->
             for (output in variant.outputs) {
-                output.outputFile = new File(output.outputFile.parent, "4adviser-" + versionName + "_" + versionCode + "_" + ".apk")
+                output.outputFile = new File(output.outputFile.parent, "LiveoMVP-" + versionName + "_" + versionCode + "_" + ".apk")
             }
         }
     }
