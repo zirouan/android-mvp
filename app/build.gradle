@@ -1,0 +1,107 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "br.com.liveo.mvp"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"https://reqres.in/\"")
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    signingConfigs {
+        dev {
+            storeFile file("../key/liveomvp.jks")
+            storePassword "liveomvp"
+            keyAlias "liveomvp"
+            keyPassword "liveomvp"
+        }
+    }
+
+    buildTypes {
+        release {
+            useProguard = true
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.dev
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.dev
+        }
+
+        applicationVariants.all { variant ->
+            for (output in variant.outputs) {
+                output.outputFile = new File(output.outputFile.parent, "4adviser-" + versionName + "_" + versionCode + "_" + ".apk")
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res-screen/base',
+                    'src/main/res-screen/home',
+                    'src/main/res-screen/login',
+                    'src/main/res-screen/splash',
+            ]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //Test
+    testCompile "junit:junit:${junit_version}"
+    testCompile "org.mockito:mockito-core:${mockito_version}"
+
+    //Google
+    compile "com.android.support:design:${google_support_version}"
+    compile "com.android.support:appcompat-v7:${google_support_version}"
+    compile "com.android.support:recyclerview-v7:${google_support_version}"
+
+    //Dagger 2
+    compile "com.google.dagger:dagger:${dagger_version}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger_version}"
+
+    //Square
+    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    compile "com.squareup.okhttp3:logging-interceptor:${interceptor_version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_converter_gson_version}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${retrofit_adapter_rxjava_version}"
+
+    //rxjava
+    compile "io.reactivex.rxjava2:rxjava:${rxjava_version}"
+    compile "io.reactivex.rxjava2:rxandroid:${rxandroid_version}"
+
+    //Glide
+    compile "com.github.bumptech.glide:glide:${glide_version}"
+
+    //Others
+    compile "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${keyboard_event_version}"
+}
