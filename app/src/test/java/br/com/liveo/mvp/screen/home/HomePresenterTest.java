@@ -51,6 +51,20 @@ public class HomePresenterTest {
     }
 
     @Test
+    public void fetchUsers_returningFailing_forView() {
+        Throwable throwable = new Throwable();
+        when(mInteractor.fetchUsers(2)).thenReturn(Observable.error(throwable));
+
+        mInteractor.fetchUsers(2);
+
+        mView.onLoading(false);
+        mView.onError(throwable.getMessage());
+
+        verify(mView).onLoading(false);
+        verify(mView).onError(throwable.getMessage());
+    }
+
+    @Test
     public void fetchUsers_returningSuccess_forView() {
         mView.onLoading(true);
         mInteractor.fetchUsers(2);
@@ -61,15 +75,6 @@ public class HomePresenterTest {
 
         mView.onUserResponse(mUserResponse);
         verify(mView).onUserResponse(mUserResponse);
-    }
-
-    @Test
-    public void fetchUsers_returningFailing_forView() {
-        mView.onLoading(false);
-        mView.onError("Error fetching users");
-
-        verify(mView).onLoading(false);
-        verify(mView).onError("Error fetching users");
     }
 
     @Test

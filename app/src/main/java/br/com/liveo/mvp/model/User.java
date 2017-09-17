@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import br.com.liveo.mvp.base.BaseModel;
+
 /**
  * Created by rudsonlima on 8/29/17.
  */
 
-public class User implements Parcelable {
+public class User extends BaseModel implements Parcelable {
 
     private int id;
 

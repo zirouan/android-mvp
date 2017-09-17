@@ -16,7 +16,7 @@ public class HomeActivityTest {
     private Class entryClass;
 
     @Before
-    public void onInit(){
+    public void setUp(){
         this.entryClass = HomeActivity.class;
     }
 

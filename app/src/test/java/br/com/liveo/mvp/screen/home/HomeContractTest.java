@@ -17,7 +17,7 @@ public class HomeContractTest {
     private Class entryClassPresenter;
 
     @Before
-    public void onInit(){
+    public void setUp(){
         this.entryClassView = HomeContract.View.class;
         this.entryClassPresenter = HomeContract.Presenter.class;
     }
