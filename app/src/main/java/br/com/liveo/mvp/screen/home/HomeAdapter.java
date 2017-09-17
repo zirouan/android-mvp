@@ -8,49 +8,39 @@ import java.util.List;
 
 import br.com.liveo.mvp.BR;
 import br.com.liveo.mvp.R;
+import br.com.liveo.mvp.base.BaseAdapter;
 import br.com.liveo.mvp.model.User;
 import br.com.liveo.mvp.model.domain.UserResponse;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by rudsonlima on 8/29/17.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
+class HomeAdapter extends BaseAdapter<User> {
 
-    private List<User> userList;
-    private final PublishSubject<User> onItemClick = PublishSubject.create();
-
-    public HomeAdapter(UserResponse userResponse) {
-        this.userList = userResponse.list;
+    HomeAdapter(UserResponse userResponse) {
+        this.dataList = userResponse.list;
     }
 
     public void setData(List<User> list){
-        this.userList = list;
+        this.dataList = list;
     }
 
     @Override
-    public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolderBase(ViewGroup parent, int viewType) {
         return new HomeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_home_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(HomeViewHolder holder, int position) {
-        final User user = userList.get(position);
+    public void onBindViewHolderBase(RecyclerView.ViewHolder holder, int position) {
+        final User user = dataList.get(position);
 
-        holder.getBinding().setVariable(BR.user, user);
-        holder.getBinding().executePendingBindings();
-
-        holder.itemView.setOnClickListener(v -> onItemClick.onNext(user));
+        ((HomeViewHolder)holder).getBinding().setVariable(BR.user, user);
+        ((HomeViewHolder)holder).getBinding().executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return userList != null && userList.size() > 0 ? userList.size() : 0;
-    }
-
-    Observable<User> observableItemClick() {
-        return onItemClick;
+        return super.getItemCount();
     }
 }

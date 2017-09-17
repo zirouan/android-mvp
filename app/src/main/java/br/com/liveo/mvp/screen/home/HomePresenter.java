@@ -6,6 +6,7 @@ import android.util.Log;
 import javax.inject.Inject;
 
 import br.com.liveo.mvp.base.BasePresenter;
+import br.com.liveo.mvp.base.BaseView;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import br.com.liveo.mvp.util.Constant;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
@@ -55,5 +56,10 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     @Override
     public void detachView() {
         this.mView = null;
+    }
+
+    @Override
+    public BaseView getView() {
+        return this.mView;
     }
 }

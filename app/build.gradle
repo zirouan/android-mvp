@@ -104,4 +104,5 @@ dependencies {
 
     //Others
     compile "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${keyboard_event_version}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

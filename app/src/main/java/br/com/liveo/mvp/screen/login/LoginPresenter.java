@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import br.com.liveo.mvp.base.BasePresenter;
+import br.com.liveo.mvp.base.BaseView;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
 
 /**
@@ -28,6 +29,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     @Override
     public void detachView() {
         this.mView = null;
+    }
+
+    @Override
+    public BaseView getView() {
+        return this.mView;
     }
 
     @Override
