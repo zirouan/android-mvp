@@ -24,9 +24,8 @@ public class HomeModule {
 
     @Provides
     @ActivityScoped
-    HomeContract.Presenter provideHomePresenter(HomeInteractor homeInteractor,
-                                  BaseScheduler scheduler) {
-        return new HomePresenter(homeInteractor, scheduler);
+    HomeContract.Presenter provideHomePresenter(BaseScheduler scheduler) {
+        return new HomePresenter(scheduler);
     }
 
     @Provides

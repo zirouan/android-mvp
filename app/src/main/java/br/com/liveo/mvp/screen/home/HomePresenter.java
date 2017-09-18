@@ -17,12 +17,13 @@ import br.com.liveo.mvp.util.scheduler.BaseScheduler;
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
     private HomeContract.View mView;
-    private HomeInteractor mHomeInteractor;
 
     @Inject
-    public HomePresenter(@NonNull HomeInteractor homeInteractor, @NonNull BaseScheduler scheduler) {
+    public HomeInteractor mHomeInteractor;
+
+    @Inject
+    public HomePresenter(@NonNull BaseScheduler scheduler) {
         super(scheduler);
-        this.mHomeInteractor = homeInteractor;
     }
 
     @Override

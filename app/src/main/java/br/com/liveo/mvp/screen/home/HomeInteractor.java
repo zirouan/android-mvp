@@ -1,5 +1,7 @@
 package br.com.liveo.mvp.screen.home;
 
+import javax.inject.Inject;
+
 import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
@@ -10,6 +12,7 @@ import io.reactivex.Observable;
 public class HomeInteractor implements HomeContract.Interactor {
     private ApiEndPoint apiEndPoint;
 
+    @Inject
     public HomeInteractor(ApiEndPoint apiEndPoint) {
         this.apiEndPoint = apiEndPoint;
     }
