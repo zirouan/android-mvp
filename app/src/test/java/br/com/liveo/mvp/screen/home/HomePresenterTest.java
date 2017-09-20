@@ -78,7 +78,14 @@ public class HomePresenterTest {
     }
 
     @Test
+    public void attach_isNotNUll_sucess(){
+        Assert.assertNotNull(mPresenter.getView());
+    }
+
+    @Test
     public void detachView_isNUll_sucess(){
+        Assert.assertNotNull(mPresenter.getView());
+
         mPresenter.detachView();
         Assert.assertNull(mPresenter.getView());
     }
