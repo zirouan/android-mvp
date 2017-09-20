@@ -1,5 +1,6 @@
 package br.com.liveo.mvp.screen.home;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import org.mockito.MockitoAnnotations;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,10 +47,29 @@ public class HomePresenterTest {
         mPresenter.attach(mView);
     }
 
+    @After
+    public void destroy() {
+        mPresenter.detachView();
+    }
+
     @Test
     public void fetchUsers_sucess(){
         mInteractor.fetchUsers(2);
-        verify(mInteractor).fetchUsers(2);
+        verify(mInteractor, times(1)).fetchUsers(2);
+    }
+
+    @Test
+    public void fetchUsers_returningSuccess_forView() {
+        mView.onLoading(true);
+        mInteractor.fetchUsers(2);
+        mView.onLoading(false);
+
+        verify(mView, times(1)).onLoading(true);
+        verify(mView, times(1)).onLoading(false);
+
+        mView.onUserResponse(mUserResponse);
+        verify(mView, times(1)).onUserResponse(mUserResponse);
+        verify(mView, never()).onError("Error");
     }
 
     @Test
@@ -60,21 +82,9 @@ public class HomePresenterTest {
         mView.onLoading(false);
         mView.onError(throwable.getMessage());
 
-        verify(mView).onLoading(false);
-        verify(mView).onError(throwable.getMessage());
-    }
-
-    @Test
-    public void fetchUsers_returningSuccess_forView() {
-        mView.onLoading(true);
-        mInteractor.fetchUsers(2);
-        mView.onLoading(false);
-
-        verify(mView).onLoading(true);
-        verify(mView).onLoading(false);
-
-        mView.onUserResponse(mUserResponse);
-        verify(mView).onUserResponse(mUserResponse);
+        verify(mView, times(1)).onLoading(false);
+        verify(mView, times(1)).onError(throwable.getMessage());
+        verify(mView, never()).onUserResponse(mUserResponse);
     }
 
     @Test
