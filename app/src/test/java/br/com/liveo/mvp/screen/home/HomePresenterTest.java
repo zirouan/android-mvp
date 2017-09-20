@@ -48,7 +48,7 @@ public class HomePresenterTest {
     }
 
     @After
-    public void destroy() {
+    public void tearDown() {
         mPresenter.detachView();
     }
 
