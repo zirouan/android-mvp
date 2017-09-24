@@ -18,12 +18,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     private HomeContract.View mView;
 
-    @Inject
-    public HomeInteractor mHomeInteractor;
+    private HomeInteractor mHomeInteractor;
 
     @Inject
-    public HomePresenter(@NonNull BaseScheduler scheduler) {
+    public HomePresenter(@NonNull HomeInteractor interactor, @NonNull BaseScheduler scheduler) {
         super(scheduler);
+        this.mHomeInteractor = interactor;
     }
 
     @Override

@@ -2,6 +2,7 @@ package br.com.liveo.mvp.screen.home;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -10,6 +11,7 @@ import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -24,20 +26,29 @@ public class HomeInteractorTest {
     private ApiEndPoint mApiEndPoint;
 
     @Mock
-    private HomeInteractor mInteractor;
+    private HomeContract.Interactor mInteractor;
+
+    @InjectMocks
+    private HomeInteractor mHomeInteractor;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
 
-        mInteractor = new HomeInteractor(mApiEndPoint);
+        mInteractor = mHomeInteractor;
         when(mInteractor.fetchUsers(2)).thenReturn(Observable.just(new UserResponse()));
     }
 
     @Test
-    public void fetchCompany_sucess() {
+    public void fetchUsers_sucess() {
+        mInteractor.fetchUsers(2);
+        verify(mApiEndPoint).fetchUsers(2);
+    }
+
+    @Test
+    public void fetchUsers_noErros_sucess() {
         TestObserver<UserResponse> subscriber = TestObserver.create();
-        mInteractor.fetchUsers(2).subscribe(subscriber);
+        mApiEndPoint.fetchUsers(2).subscribe(subscriber);
         subscriber.onNext(new UserResponse());
         subscriber.assertNoErrors();
         subscriber.assertComplete();
