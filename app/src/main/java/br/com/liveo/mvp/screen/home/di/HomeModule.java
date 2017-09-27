@@ -20,13 +20,14 @@ public class HomeModule {
 
     @Provides
     @ActivityScoped
-    HomeInteractor provideHomeInteractor(@NonNull ApiEndPoint apiEndPoint){
+    HomeContract.Interactor provideHomeInteractor(@NonNull ApiEndPoint apiEndPoint){
         return new HomeInteractor(apiEndPoint);
     }
 
     @Provides
     @ActivityScoped
-    HomeContract.Presenter provideHomePresenter(@NonNull HomeInteractor interactor, @NonNull BaseScheduler scheduler) {
+    HomeContract.Presenter provideHomePresenter(@NonNull HomeContract.Interactor interactor,
+                                                @NonNull BaseScheduler scheduler) {
         return new HomePresenter(interactor, scheduler);
     }
 

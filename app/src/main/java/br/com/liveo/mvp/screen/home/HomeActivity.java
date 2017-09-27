@@ -25,7 +25,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private ActivityHomeBinding mBinding;
 
     @Inject
-    public HomePresenter mHomePresenter;
+    public HomeContract.Presenter mHomePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
