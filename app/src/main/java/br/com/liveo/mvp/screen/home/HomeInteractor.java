@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by rudsonlima on 9/4/17.
@@ -18,7 +19,7 @@ public class HomeInteractor implements HomeContract.Interactor {
     }
 
     @Override
-    public Observable<UserResponse> fetchUsers(int page) {
+    public Single<UserResponse> fetchUsers(int page) {
         return apiEndPoint.fetchUsers(page);
     }
 }

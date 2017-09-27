@@ -11,7 +11,9 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.liveo.mvp.model.domain.UserResponse;
 import br.com.liveo.mvp.util.scheduler.TestSchedulerProvider;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.Mockito.never;
@@ -28,26 +30,27 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnit4.class)
 public class HomePresenterTest {
 
-    @Mock
-    private HomeInteractor mInteractor;
+    private TestScheduler mTestScheduler;
+    private HomeContract.Presenter mPresenter;
 
     @Mock
     public HomeContract.View mView;
 
     @Mock
-    public HomeContract.Presenter mPresenter;
+    private UserResponse mUserResponse;
 
     @Mock
-    private UserResponse mUserResponse;
+    private HomeContract.Interactor mInteractor;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
 
         when(mView.getPage()).thenReturn(2);
-        when(mInteractor.fetchUsers(2)).thenReturn(Observable.just(mUserResponse));
+        when(mInteractor.fetchUsers(2)).thenReturn(Single.just(mUserResponse));
 
-        mPresenter = new HomePresenter(mInteractor, new TestSchedulerProvider(new TestScheduler()));
+        mTestScheduler = new TestScheduler();
+        mPresenter = new HomePresenter(mInteractor, new TestSchedulerProvider(mTestScheduler));
         mPresenter.attach(mView);
     }
 
@@ -63,26 +66,35 @@ public class HomePresenterTest {
     }
 
     @Test
+    public void fetchUsers_returning_loadingSuccess_forView() {
+        mPresenter.fetchUsers();
+        verify(mView, times(1)).onLoading(true);
+
+        mTestScheduler.triggerActions();
+
+        verify(mView, times(1)).onLoading(false);
+    }
+
+    @Test
     public void fetchUsers_returningSuccess_forView() {
         mPresenter.fetchUsers();
 
-        verify(mView, times(1)).getPage();
-        verify(mView, times(1)).onLoading(true);
+        mTestScheduler.triggerActions();
 
-        mView.onUserResponse(mUserResponse);
         verify(mView, times(1)).onUserResponse(mUserResponse);
-        verify(mView, never()).onError("Error");
+        verify(mView, never()).onError(null);
     }
 
     @Test
     public void fetchUsers_returningFailing_forView() {
         Throwable throwable = new Throwable();
-        when(mInteractor.fetchUsers(2)).thenReturn(Observable.error(throwable));
+        when(mInteractor.fetchUsers(2)).thenReturn(Single.error(throwable));
 
         mPresenter.fetchUsers();
 
-        mView.onError(throwable.getMessage());
-        verify(mView, times(1)).onError(throwable.getMessage());
+        mTestScheduler.triggerActions();
+
+        verify(mView).onError(throwable);
         verify(mView, never()).onUserResponse(mUserResponse);
     }
 

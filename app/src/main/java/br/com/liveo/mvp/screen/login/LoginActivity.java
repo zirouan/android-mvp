@@ -27,7 +27,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    public void onError(String error) {
+    public void onError(Throwable error) {
 
     }
 

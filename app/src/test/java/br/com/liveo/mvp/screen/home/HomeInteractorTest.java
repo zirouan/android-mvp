@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ public class HomeInteractorTest {
         MockitoAnnotations.initMocks(this);
 
         mInteractor = mHomeInteractor;
-        when(mInteractor.fetchUsers(2)).thenReturn(Observable.just(new UserResponse()));
+        when(mInteractor.fetchUsers(2)).thenReturn(Single.just(new UserResponse()));
     }
 
     @Test

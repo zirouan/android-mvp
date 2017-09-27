@@ -69,7 +69,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     @Override
-    public void onError(String error) {
+    public void onError(Throwable error) {
     }
 
     @Override

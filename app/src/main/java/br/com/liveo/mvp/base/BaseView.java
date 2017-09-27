@@ -9,5 +9,5 @@ import br.com.liveo.mvp.main.MainView;
 public interface BaseView<T> extends MainView {
     void onLoading(boolean isLoading);
 
-    void onError(String error);
+    void onError(Throwable error);
 }
