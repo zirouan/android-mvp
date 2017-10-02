@@ -6,10 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.ApiEndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 
 import static org.mockito.Mockito.verify;

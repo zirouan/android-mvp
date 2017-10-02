@@ -2,7 +2,7 @@ package br.com.liveo.mvp.screen.home.di;
 
 import android.support.annotation.NonNull;
 
-import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.ApiEndPoint;
 import br.com.liveo.mvp.di.scopes.ActivityScoped;
 import br.com.liveo.mvp.screen.home.HomeContract;
 import br.com.liveo.mvp.screen.home.HomeInteractor;

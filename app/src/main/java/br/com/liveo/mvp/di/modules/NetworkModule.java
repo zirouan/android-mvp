@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 
 import br.com.liveo.mvp.BuildConfig;
-import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
-import br.com.liveo.mvp.data.source.remote.RequestInterceptor;
+import br.com.liveo.mvp.data.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.RequestInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;

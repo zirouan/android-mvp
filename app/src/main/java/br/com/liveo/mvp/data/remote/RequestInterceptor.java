@@ -1,4 +1,4 @@
-package br.com.liveo.mvp.data.source.remote;
+package br.com.liveo.mvp.data.remote;
 
 import android.support.annotation.NonNull;
 

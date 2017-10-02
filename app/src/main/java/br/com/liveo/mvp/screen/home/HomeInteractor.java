@@ -2,10 +2,9 @@ package br.com.liveo.mvp.screen.home;
 
 import javax.inject.Inject;
 
-import br.com.liveo.mvp.data.source.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.ApiEndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 /**
  * Created by rudsonlima on 9/4/17.
