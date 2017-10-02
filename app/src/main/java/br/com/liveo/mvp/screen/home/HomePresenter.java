@@ -1,24 +1,24 @@
 package br.com.liveo.mvp.screen.home;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.liveo.mvp.base.BasePresenter;
 import br.com.liveo.mvp.base.BaseView;
 import br.com.liveo.mvp.model.domain.UserResponse;
-import br.com.liveo.mvp.util.Constant;
+import br.com.liveo.mvp.screen.home.di.HomeModule;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
 import io.reactivex.Observer;
-import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by rudsonlima on 8/29/17.
+ * This class makes module for {@link HomeModule}
+ *
+ * @author Rudson Lima
+ * @since 10/02/17
  */
+
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
     private HomeContract.View mView;

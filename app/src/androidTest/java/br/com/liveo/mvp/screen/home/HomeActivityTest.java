@@ -18,6 +18,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 
+/**
+ * This class makes activity for {@link HomeActivity}
+ *
+ * @author Rudson Lima
+ * @since 10/02/17
+ */
+
 @RunWith(AndroidJUnit4.class)
 public class HomeActivityTest {
 

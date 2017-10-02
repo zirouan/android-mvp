@@ -13,8 +13,12 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by rudsonlima on 9/2/17.
+ * This class makes Subcomponent for {@link HomeComponent}
+ *
+ * @author Rudson Lima
+ * @since 10/02/17
  */
+
 @Module
 public class HomeModule {
 

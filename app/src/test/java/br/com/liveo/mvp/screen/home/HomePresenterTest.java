@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
  * @author Rudson Lima
  * @since 09/16/17
  */
+
 @RunWith(JUnit4.class)
 public class HomePresenterTest {
 
