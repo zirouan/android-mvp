@@ -19,7 +19,7 @@ public class HomeInteractor implements HomeContract.Interactor {
     }
 
     @Override
-    public Single<UserResponse> fetchUsers(int page) {
+    public Observable<UserResponse> fetchUsers(int page) {
         return apiEndPoint.fetchUsers(page);
     }
 }

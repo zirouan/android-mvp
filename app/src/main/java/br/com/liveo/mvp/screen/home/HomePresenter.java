@@ -12,6 +12,7 @@ import br.com.liveo.mvp.base.BaseView;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import br.com.liveo.mvp.util.Constant;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
+import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
@@ -36,14 +37,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         this.mInteractor.fetchUsers(this.mView.getPage()).
                 subscribeOn(this.getSchedulerProvider().io())
                 .observeOn(this.getSchedulerProvider().ui())
-                .subscribe(new SingleObserver<UserResponse>() {
+                .subscribe(new Observer<UserResponse>() {
                     @Override
                     public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
                         mView.onLoading(true);
                     }
 
                     @Override
-                    public void onSuccess(@io.reactivex.annotations.NonNull UserResponse response) {
+                    public void onNext(@io.reactivex.annotations.NonNull UserResponse response) {
                         mView.onLoading(false);
                         mView.onUserResponse(response);
                     }
@@ -52,6 +53,11 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     public void onError(@io.reactivex.annotations.NonNull Throwable error) {
                         mView.onLoading(false);
                         mView.onError(error);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

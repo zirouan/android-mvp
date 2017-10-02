@@ -47,7 +47,7 @@ public class HomePresenterTest {
         MockitoAnnotations.initMocks(this);
 
         when(mView.getPage()).thenReturn(2);
-        when(mInteractor.fetchUsers(2)).thenReturn(Single.just(mUserResponse));
+        when(mInteractor.fetchUsers(2)).thenReturn(Observable.just(mUserResponse));
 
         mTestScheduler = new TestScheduler();
         mPresenter = new HomePresenter(mInteractor, new TestSchedulerProvider(mTestScheduler));
@@ -68,6 +68,8 @@ public class HomePresenterTest {
     @Test
     public void fetchUsers_returning_loadingSuccess_forView() {
         mPresenter.fetchUsers();
+
+        verify(mView, times(1)).getPage();
         verify(mView, times(1)).onLoading(true);
 
         mTestScheduler.triggerActions();
@@ -88,13 +90,14 @@ public class HomePresenterTest {
     @Test
     public void fetchUsers_returningFailing_forView() {
         Throwable throwable = new Throwable();
-        when(mInteractor.fetchUsers(2)).thenReturn(Single.error(throwable));
+        when(mInteractor.fetchUsers(2)).thenReturn(Observable.error(throwable));
 
         mPresenter.fetchUsers();
 
         mTestScheduler.triggerActions();
 
         verify(mView).onError(throwable);
+        verify(mView, times(1)).onLoading(false);
         verify(mView, never()).onUserResponse(mUserResponse);
     }
 

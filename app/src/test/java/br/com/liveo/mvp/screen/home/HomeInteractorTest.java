@@ -37,7 +37,7 @@ public class HomeInteractorTest {
         MockitoAnnotations.initMocks(this);
 
         mInteractor = mHomeInteractor;
-        when(mInteractor.fetchUsers(2)).thenReturn(Single.just(new UserResponse()));
+        when(mInteractor.fetchUsers(2)).thenReturn(Observable.just(new UserResponse()));
     }
 
     @Test
