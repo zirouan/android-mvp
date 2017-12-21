@@ -14,7 +14,6 @@ public interface LoginContract {
         String getEmail();
         String getPassword();
         void onLoginSuccess();
-        void onLoginFailed(Throwable exception);
     }
 
     interface Presenter extends MainPresenter<View> {

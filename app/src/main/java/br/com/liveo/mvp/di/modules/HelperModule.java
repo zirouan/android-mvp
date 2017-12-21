@@ -1,13 +1,20 @@
 package br.com.liveo.mvp.di.modules;
 
 
+import android.content.Context;
+
+import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import br.com.liveo.mvp.BuildConfig;
-import br.com.liveo.mvp.data.remote.ApiEndPoint;
-import br.com.liveo.mvp.data.remote.RequestInterceptor;
+import br.com.liveo.mvp.data.local.Preferences;
+import br.com.liveo.mvp.data.local.PreferencesHelper;
+import br.com.liveo.mvp.data.remote.EndPoint;
+import br.com.liveo.mvp.data.remote.helper.ApiHelper;
+import br.com.liveo.mvp.data.remote.helper.EndPointHelper;
+import br.com.liveo.mvp.data.remote.interceptor.RequestInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;
@@ -21,13 +28,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by rudsonlima on 9/4/17.
  */
 @Module
-public class NetworkModule {
-    private static final int CONNECT_TIMEOUT_IN_MS = 30000;
+public class HelperModule {
+    private static final int CONNECT_TIMEOUT_IN_MS = 60000;
+
+    private final WeakReference<Context> mContext;
+
+    public HelperModule(WeakReference<Context> context) {
+        mContext = context;
+    }
 
     @Provides
     @Singleton
-    Interceptor requestInterceptor(RequestInterceptor interceptor) {
-        return interceptor;
+    WeakReference<Context> provideContext() {
+        return mContext;
+    }
+
+    @Provides
+    @Singleton
+    Interceptor proviveRequestInterceptor(PreferencesHelper preferencesHelper) {
+        return new RequestInterceptor(preferencesHelper);
     }
 
     @Provides
@@ -45,7 +64,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    Retrofit retrofit(OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit
                 .Builder()
                 .baseUrl(BuildConfig.BASE_URL)
@@ -57,7 +76,19 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    ApiEndPoint apiEndPoint(Retrofit retrofit) {
-        return retrofit.create(ApiEndPoint.class);
+    EndPoint provideApiEndPoint(Retrofit retrofit) {
+        return retrofit.create(EndPoint.class);
+    }
+
+    @Singleton
+    @Provides
+    EndPointHelper provideApiEndPointHelper(EndPoint endPoint) {
+        return new ApiHelper(endPoint);
+    }
+
+    @Provides
+    @Singleton
+    PreferencesHelper providePreferencesHelper(WeakReference<Context> context) {
+        return new Preferences(context);
     }
 }

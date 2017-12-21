@@ -45,9 +45,4 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void onLoginSuccess() {
 
     }
-
-    @Override
-    public void onLoginFailed(Throwable exception) {
-
-    }
 }

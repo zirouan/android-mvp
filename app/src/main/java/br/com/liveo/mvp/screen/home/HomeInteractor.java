@@ -2,23 +2,23 @@ package br.com.liveo.mvp.screen.home;
 
 import javax.inject.Inject;
 
-import br.com.liveo.mvp.data.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.helper.EndPointHelper;
 import br.com.liveo.mvp.model.domain.UserResponse;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by rudsonlima on 9/4/17.
  */
 public class HomeInteractor implements HomeContract.Interactor {
-    private ApiEndPoint apiEndPoint;
+    private EndPointHelper apiEndPointHelper;
 
     @Inject
-    public HomeInteractor(ApiEndPoint apiEndPoint) {
-        this.apiEndPoint = apiEndPoint;
+    public HomeInteractor(EndPointHelper apiEndPointHelper) {
+        this.apiEndPointHelper = apiEndPointHelper;
     }
 
     @Override
-    public Observable<UserResponse> fetchUsers(int page) {
-        return apiEndPoint.fetchUsers(page);
+    public Single<UserResponse> fetchUsers(int page) {
+        return this.apiEndPointHelper.fetchUsers(page);
     }
 }

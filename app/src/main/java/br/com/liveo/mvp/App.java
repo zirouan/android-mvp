@@ -2,9 +2,11 @@ package br.com.liveo.mvp;
 
 import android.app.Application;
 
+import java.lang.ref.WeakReference;
+
 import br.com.liveo.mvp.di.components.ApplicationComponent;
 import br.com.liveo.mvp.di.components.DaggerApplicationComponent;
-import br.com.liveo.mvp.di.modules.NetworkModule;
+import br.com.liveo.mvp.di.modules.HelperModule;
 
 /**
  * Created by rudsonlima on 8/31/17.
@@ -19,7 +21,8 @@ public class App extends Application {
         super.onCreate();
 
         this.appComponent = DaggerApplicationComponent.builder()
-                .networkModule(new NetworkModule()).build();
+                .helperModule(new HelperModule(new WeakReference<>(this)))
+                .build();
     }
 
     public ApplicationComponent getApp() {

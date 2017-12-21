@@ -2,4 +2,17 @@
     <string name="clear"/>
     <string name="app_name">LiveoMVP</string>
     <string name="action_settings">Settings</string>
+
+    <!--Login-->
+    <string name="enter_and_email">Informe um e-mail</string>
+    <string name="enter_the_your_email">Informe o seu e-mail</string>
+    <string name="enter_the_your_password">Informe sua senha</string>
+    <string name="enter_the_your_email_valid">Informe um e-mail válido</string>
+
+    <string name="error_users">Não foi possível efetuar a busca, verifique os dados inseridos e tente novamente.</string>
+    <!--Login-->
+
+    <!--Warning default-->
+    <string name="warning_no_data">Não há dados</string>
+    <!--Warning default-->
 </resources>

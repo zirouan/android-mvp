@@ -18,6 +18,10 @@ import br.com.liveo.mvp.model.User;
  */
 
 public class BaseModel {
+
+    public String errorMessage;
+    public String successMessage;
+
     @BindingAdapter("imageLoadRounded")
     public static void setImageLoadRounded(final ImageView imageView, String urlImage){
         if (!TextUtils.isEmpty(urlImage)) {

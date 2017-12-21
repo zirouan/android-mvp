@@ -9,8 +9,8 @@ import retrofit2.http.Query;
  * Created by rudsonlima on 8/29/17.
  */
 
-public interface ApiEndPoint {
+public interface EndPoint {
 
-    @GET("api/users")
+    @GET(EndPointConstraint.METHOD_USERS)
     Observable<UserResponse> fetchUsers(@Query("page") int page);
 }

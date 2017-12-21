@@ -1,5 +1,5 @@
 <resources>
-    <style name="MyTheme.FloatingDialog" parent="Base.Theme.AppCompat.Dialog">
+    <style name="AppTheme.FloatingDialog" parent="Base.Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
         <item name="android:windowIsFloating">true</item>
@@ -10,6 +10,7 @@
         <item name="android:backgroundDimAmount">.70</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/translate_slide_up</item>

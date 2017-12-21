@@ -16,6 +16,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -104,14 +105,14 @@ public class HomePresenterTest {
 
     @Test
     public void attach_isNotNull_sucess(){
-        Assert.assertNotNull(mPresenter.getView());
+        assertNotNull(mPresenter.getView());
     }
 
     @Test
     public void detachView_isNull_sucess(){
-        Assert.assertNotNull(mPresenter.getView());
+        assertNotNull(mPresenter.getView());
 
         mPresenter.detachView();
-        Assert.assertNull(mPresenter.getView());
+        assertNull(mPresenter.getView());
     }
 }

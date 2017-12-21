@@ -5,12 +5,8 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import br.com.liveo.mvp.base.BasePresenter;
-import br.com.liveo.mvp.base.BaseView;
-import br.com.liveo.mvp.model.domain.UserResponse;
 import br.com.liveo.mvp.screen.home.di.HomeModule;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 /**
  * This class makes module for {@link HomeModule}
@@ -34,32 +30,25 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void fetchUsers() {
-        this.mInteractor.fetchUsers(this.mView.getPage()).
-                subscribeOn(this.getSchedulerProvider().io())
-                .observeOn(this.getSchedulerProvider().ui())
-                .subscribe(new Observer<UserResponse>() {
-                    @Override
-                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
-                        mView.onLoading(true);
-                    }
+        if (this.getView() != null) {
+            this.getView().onLoading(true);
 
-                    @Override
-                    public void onNext(@io.reactivex.annotations.NonNull UserResponse response) {
-                        mView.onLoading(false);
-                        mView.onUserResponse(response);
-                    }
+            this.mInteractor.fetchUsers(this.mView.getPage()).
+                    subscribeOn(this.getSchedulerProvider().io())
+                    .observeOn(this.getSchedulerProvider().ui())
+                    .subscribe(
 
-                    @Override
-                    public void onError(@io.reactivex.annotations.NonNull Throwable error) {
-                        mView.onLoading(false);
-                        mView.onError(error);
-                    }
+                            userResponse -> {//onSuccess
+                                this.getView().onLoading(false);
+                                this.getView().onUserResponse(userResponse);
+                            },
 
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                            error -> {
+                                this.getView().onLoading(false);
+                                this.getView().onError(error);
+                            }
+                    );
+        }
     }
 
     @Override
@@ -73,7 +62,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     }
 
     @Override
-    public BaseView getView() {
+    public HomeContract.View getView() {
         return this.mView;
     }
 }

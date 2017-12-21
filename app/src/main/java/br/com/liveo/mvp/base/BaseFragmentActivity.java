@@ -9,19 +9,23 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.lang.reflect.Method;
 
+import br.com.liveo.mvp.App;
 import br.com.liveo.mvp.R;
+import br.com.liveo.mvp.di.components.BaseApplicationComponent;
 
 /**
  * Created by rudsonlima on 8/29/17.
  */
 
 public abstract class BaseFragmentActivity extends FragmentActivity {
+    private Toast mToast;
 
     public enum ActivityAnimation {
         TRANSLATE_LEFT, TRANSLATE_RIGHT, TRANSLATE_UP, TRANSLATE_DOWN, TRANSLATE_FADE
@@ -113,5 +117,47 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
         }
 
         return new int[]{enterAnim, exitAnim};
+    }
+
+    public BaseApplicationComponent getAppComponent(){
+        return ((App) getApplication()).getApp();
+    }
+
+    //region Methods Toast
+    private void clearToast() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+    }
+
+    public void toastLong(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+
+    public void toastLong(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, getString(text), Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, getString(text), Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+    //endregion
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.clearToast();
     }
 }

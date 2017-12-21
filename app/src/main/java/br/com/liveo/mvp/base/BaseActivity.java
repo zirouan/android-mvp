@@ -6,24 +6,30 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.lang.reflect.Method;
 
+import br.com.liveo.mvp.App;
 import br.com.liveo.mvp.R;
+import br.com.liveo.mvp.di.components.BaseApplicationComponent;
+import br.com.liveo.mvp.util.Constant;
 
 /**
  * Created by rudsonlima on 8/29/17.
  */
 
 public abstract class BaseActivity extends AppCompatActivity  {
+    private Toast mToast;
 
     public enum ActivityAnimation {
         TRANSLATE_LEFT, TRANSLATE_RIGHT, TRANSLATE_UP, TRANSLATE_DOWN, TRANSLATE_FADE
@@ -39,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
         return DataBindingUtil.setContentView(this, layout);
     }
 
+    //region Methods Toolbar
     public void onInitToolbar(Toolbar toolBar) {
         onInitToolbar(toolBar, getString(R.string.clear), -1, false);
     }
@@ -75,13 +82,27 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
             if (actionBar != null) {
                 actionBar.setTitle(title);
+                actionBar.setDisplayShowHomeEnabled(displayHome);
                 actionBar.setDisplayHomeAsUpEnabled(displayHome);
-                if (icon != -1) {
-                    actionBar.setHomeAsUpIndicator(icon);
+                if (icon != -1 && displayHome) {
+                    toolBar.setNavigationIcon(ContextCompat.getDrawable(this, icon));
                 }
             }
         }
     }
+
+    public void showElevation(AppBarLayout appBarLayout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            appBarLayout.setElevation(10);
+        }
+    }
+
+    public void removeEvelation(AppBarLayout appBarLayout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            appBarLayout.setElevation(0);
+        }
+    }
+    //endregion
 
     public void onEventKeyboard(final KeyboardVisibilityEventListener listener) {
         KeyboardVisibilityEvent.setEventListener(this,
@@ -162,5 +183,53 @@ public abstract class BaseActivity extends AppCompatActivity  {
         }
 
         return new int[]{enterAnim, exitAnim};
+    }
+
+    public BaseApplicationComponent getAppComponent(){
+        return ((App) getApplication()).getApp();
+    }
+
+    public void setResultClose() {
+        Intent intent = new Intent();
+        intent.putExtra(Constant.TAG, true);
+        setResult(0, intent);
+    }
+
+    //region Methods Toast
+    private void clearToast() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+    }
+
+    public void toastLong(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+
+    public void toastLong(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, getString(text), Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(this, getString(text), Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+    //endregion
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.clearToast();
     }
 }

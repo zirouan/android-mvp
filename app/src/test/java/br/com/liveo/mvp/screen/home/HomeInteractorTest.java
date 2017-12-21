@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.liveo.mvp.data.remote.ApiEndPoint;
+import br.com.liveo.mvp.data.remote.EndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class HomeInteractorTest {
 
     @Mock
-    private ApiEndPoint mApiEndPoint;
+    private EndPoint mApiEndPoint;
 
     @Mock
     private HomeContract.Interactor mInteractor;

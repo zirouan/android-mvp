@@ -5,32 +5,37 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.lang.reflect.Method;
 
+import br.com.liveo.mvp.App;
 import br.com.liveo.mvp.R;
+import br.com.liveo.mvp.di.components.BaseApplicationComponent;
 
 /**
  * Created by rudsonlima on 8/29/17.
  */
 
 public abstract class BaseFragment extends Fragment {
+    private Toast mToast;
 
     public enum ActivityAnimation {
         TRANSLATE_LEFT, TRANSLATE_RIGHT, TRANSLATE_UP, TRANSLATE_DOWN, TRANSLATE_FADE
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() != null && getActivity().getWindow() != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -43,12 +48,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void onEventKeyboard(final KeyboardVisibilityEventListener listener) {
-        KeyboardVisibilityEvent.setEventListener(getActivity(),
-                isOpen -> {
-                    if (listener != null) {
-                        listener.onVisibilityChanged(isOpen);
-                    }
-                });
+        if (getActivity() != null) {
+            KeyboardVisibilityEvent.setEventListener(getActivity(),
+                    isOpen -> {
+                        if (listener != null) {
+                            listener.onVisibilityChanged(isOpen);
+                        }
+                    });
+        }
     }
 
     public void startActivity(Intent intent, final ActivityAnimation animation) {
@@ -62,8 +69,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void finish(final ActivityAnimation animation) {
-        getActivity().finish();
-        putAnimation(getActivity(), animation);
+        if (getActivity() != null) {
+            getActivity().finish();
+            putAnimation(getActivity(), animation);
+        }
     }
 
     private static void putAnimation(final Activity source,
@@ -112,5 +121,47 @@ public abstract class BaseFragment extends Fragment {
         }
 
         return new int[]{enterAnim, exitAnim};
+    }
+
+    public BaseApplicationComponent getAppComponent(){
+        return ((App) this.getActivity().getApplication()).getApp();
+    }
+
+    //region Methods Toast
+    private void clearToast(){
+        if (mToast != null) {
+            mToast.cancel();
+        }
+    }
+
+    public void toastLong(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(getActivity(), text, Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(CharSequence text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+
+    public void toastLong(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(getActivity(), getString(text), Toast.LENGTH_LONG);
+        this.mToast.show();
+    }
+
+    public void toastShort(int text) {
+        this.clearToast();
+        this.mToast = Toast.makeText(getActivity(), getString(text), Toast.LENGTH_SHORT);
+        this.mToast.show();
+    }
+    //endregion
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.clearToast();
     }
 }

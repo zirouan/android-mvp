@@ -2,9 +2,7 @@ package br.com.liveo.mvp.di.components;
 
 import javax.inject.Singleton;
 
-import br.com.liveo.mvp.di.modules.NetworkModule;
-import br.com.liveo.mvp.screen.home.di.HomeComponent;
-import br.com.liveo.mvp.screen.home.di.HomeModule;
+import br.com.liveo.mvp.di.modules.HelperModule;
 import dagger.Component;
 
 /**
@@ -12,7 +10,6 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {NetworkModule.class})
-public interface ApplicationComponent {
-    HomeComponent module(HomeModule detailsModule);
+@Component(modules = {HelperModule.class})
+public interface ApplicationComponent extends BaseApplicationComponent {
 }
