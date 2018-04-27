@@ -21,7 +21,7 @@ public interface HomeContract {
         void fetchUsers();
     }
 
-    interface Interactor {
+    interface Repository {
         Single<UserResponse> fetchUsers(int page);
     }
 }

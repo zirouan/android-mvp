@@ -28,13 +28,14 @@ class HomeAdapter extends BaseAdapter<User> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolderBase(ViewGroup parent, int viewType) {
-        return new HomeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_home_item, parent, false));
+        return new HomeViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.activity_home_item, parent, false));
     }
 
     @Override
     public void onBindViewHolderBase(RecyclerView.ViewHolder holder, int position) {
         final User user = dataList.get(position);
-
+        
         ((HomeViewHolder)holder).getBinding().setVariable(BR.user, user);
         ((HomeViewHolder)holder).getBinding().executePendingBindings();
     }

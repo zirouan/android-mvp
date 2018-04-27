@@ -4,7 +4,7 @@ import android.app.Application;
 
 import java.lang.ref.WeakReference;
 
-import br.com.liveo.mvp.di.components.ApplicationComponent;
+import br.com.liveo.mvp.di.components.BaseApplicationComponent;
 import br.com.liveo.mvp.di.components.DaggerApplicationComponent;
 import br.com.liveo.mvp.di.modules.HelperModule;
 
@@ -14,7 +14,7 @@ import br.com.liveo.mvp.di.modules.HelperModule;
 
 public class App extends Application {
 
-    private ApplicationComponent appComponent;
+    private BaseApplicationComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -25,7 +25,11 @@ public class App extends Application {
                 .build();
     }
 
-    public ApplicationComponent getApp() {
+    public void setApp(BaseApplicationComponent appComponent) {
+        this.appComponent = appComponent;
+    }
+
+    public BaseApplicationComponent getApp() {
         return appComponent;
     }
 }

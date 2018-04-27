@@ -11,9 +11,9 @@ import javax.inject.Singleton;
 import br.com.liveo.mvp.BuildConfig;
 import br.com.liveo.mvp.data.local.Preferences;
 import br.com.liveo.mvp.data.local.PreferencesHelper;
-import br.com.liveo.mvp.data.remote.EndPoint;
-import br.com.liveo.mvp.data.remote.helper.ApiHelper;
-import br.com.liveo.mvp.data.remote.helper.EndPointHelper;
+import br.com.liveo.mvp.data.remote.endpoint.EndPoint;
+import br.com.liveo.mvp.data.remote.helper.HelperManager;
+import br.com.liveo.mvp.data.remote.endpoint.EndPointHelper;
 import br.com.liveo.mvp.data.remote.interceptor.RequestInterceptor;
 import dagger.Module;
 import dagger.Provides;
@@ -83,7 +83,7 @@ public class HelperModule {
     @Singleton
     @Provides
     EndPointHelper provideApiEndPointHelper(EndPoint endPoint) {
-        return new ApiHelper(endPoint);
+        return new HelperManager(endPoint);
     }
 
     @Provides

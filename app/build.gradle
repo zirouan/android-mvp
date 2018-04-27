@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "br.com.liveo.mvp"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -52,13 +52,9 @@ android {
 
     sourceSets {
         main {
-            res.srcDirs = [
-                    'src/main/res',
-                    'src/main/res-screen/base',
-                    'src/main/res-screen/home',
-                    'src/main/res-screen/login',
-                    'src/main/res-screen/splash',
-            ]
+            file('src/main/res-screen')
+                    .listFiles()
+                    .each { res.srcDirs += it.path }
         }
     }
 

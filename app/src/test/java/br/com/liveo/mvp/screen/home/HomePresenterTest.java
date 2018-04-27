@@ -42,17 +42,17 @@ public class HomePresenterTest {
     private UserResponse mUserResponse;
 
     @Mock
-    private HomeContract.Interactor mInteractor;
+    private HomeContract.Repository mRepository;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
 
         when(mView.getPage()).thenReturn(2);
-        when(mInteractor.fetchUsers(2)).thenReturn(Single.just(mUserResponse));
+        when(mRepository.fetchUsers(2)).thenReturn(Single.just(mUserResponse));
 
         mTestScheduler = new TestScheduler();
-        mPresenter = new HomePresenter(mInteractor, new TestSchedulerProvider(mTestScheduler));
+        mPresenter = new HomePresenter(mRepository, new TestSchedulerProvider(mTestScheduler));
         mPresenter.attach(mView);
     }
 
@@ -64,7 +64,7 @@ public class HomePresenterTest {
     @Test
     public void fetchUsers_sucess(){
         mPresenter.fetchUsers();
-        verify(mInteractor, times(1)).fetchUsers(2);
+        verify(mRepository, times(1)).fetchUsers(2);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class HomePresenterTest {
     @Test
     public void fetchUsers_returningFailing_forView() {
         Throwable throwable = new Throwable();
-        when(mInteractor.fetchUsers(2)).thenReturn(Single.error(throwable));
+        when(mRepository.fetchUsers(2)).thenReturn(Single.error(throwable));
 
         mPresenter.fetchUsers();
 

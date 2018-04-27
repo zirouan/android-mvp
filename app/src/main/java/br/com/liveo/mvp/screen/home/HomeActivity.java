@@ -2,15 +2,16 @@ package br.com.liveo.mvp.screen.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 
 import javax.inject.Inject;
 
-import br.com.liveo.mvp.App;
 import br.com.liveo.mvp.R;
 import br.com.liveo.mvp.base.BaseActivity;
+import br.com.liveo.mvp.base.BaseAdapter;
 import br.com.liveo.mvp.base.BaseException;
 import br.com.liveo.mvp.databinding.ActivityHomeBinding;
 import br.com.liveo.mvp.model.User;
@@ -18,7 +19,6 @@ import br.com.liveo.mvp.model.domain.UserResponse;
 import br.com.liveo.mvp.model.exception.ListException;
 import br.com.liveo.mvp.screen.home.di.HomeModule;
 import br.com.liveo.mvp.util.Util;
-import io.reactivex.functions.Consumer;
 import retrofit2.HttpException;
 
 /**
@@ -43,7 +43,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         this.fetchUsers();
     }
 
-    private void onInitView(){
+    private void onInitView() {
         mBinding = (ActivityHomeBinding) this.bindView(R.layout.activity_home);
 
         this.onInitToolbar(mBinding.includeToolbar.toolbar, R.string.app_name);
@@ -99,16 +99,16 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void onUserResponse(UserResponse userResponse) {
-        if (userResponse != null){
+        if (userResponse != null) {
             HomeAdapter adapter = new HomeAdapter(userResponse);
-            adapter.observableItemClick().subscribe(onItemClick);
+            adapter.itemClick(onItemClick);
 
             mBinding.recyclerView.setAdapter(adapter);
         }
     }
 
-    Consumer<User> onItemClick = contact ->
-            this.toastShort(contact.getName());
+    BaseAdapter.OnItemClick<User> onItemClick = (item, position) ->
+            this.toastShort(item.getName());
 
     @Override
     protected void onDestroy() {

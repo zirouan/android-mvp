@@ -17,15 +17,13 @@ import br.com.liveo.mvp.util.scheduler.BaseScheduler;
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
-    private HomeContract.View mView;
-
-    private HomeContract.Interactor mInteractor;
+    private HomeContract.Repository mRepository;
 
     @Inject
-    public HomePresenter(@NonNull HomeContract.Interactor interactor,
+    public HomePresenter(@NonNull HomeContract.Repository repository,
                          @NonNull BaseScheduler scheduler) {
         super(scheduler);
-        this.mInteractor = interactor;
+        this.mRepository = repository;
     }
 
     @Override
@@ -33,9 +31,9 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         if (this.getView() != null) {
             this.getView().onLoading(true);
 
-            this.mInteractor.fetchUsers(this.mView.getPage()).
-                    subscribeOn(this.getSchedulerProvider().io())
-                    .observeOn(this.getSchedulerProvider().ui())
+            this.addDisposable(mRepository.fetchUsers(this.getView().getPage()).
+                    subscribeOn(this.getScheduler().io())
+                    .observeOn(this.getScheduler().ui())
                     .subscribe(
 
                             userResponse -> {//onSuccess
@@ -47,22 +45,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                                 this.getView().onLoading(false);
                                 this.getView().onError(error);
                             }
-                    );
+                    ));
         }
     }
 
     @Override
-    public void attach(HomeContract.View view) {
-        this.mView = view;
-    }
-
-    @Override
-    public void detachView() {
-        this.mView = null;
-    }
-
-    @Override
     public HomeContract.View getView() {
-        return this.mView;
+        return super.getView();
     }
 }

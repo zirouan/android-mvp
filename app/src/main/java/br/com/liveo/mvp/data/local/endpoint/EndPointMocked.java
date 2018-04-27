@@ -1,7 +1,8 @@
 package br.com.liveo.mvp.data.local.endpoint;
 
-import br.com.liveo.mvp.data.remote.EndPoint;
-import br.com.liveo.mvp.model.constant.LoginConstant;
+import com.google.gson.Gson;
+
+import br.com.liveo.mvp.data.remote.endpoint.EndPoint;
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
 
@@ -11,20 +12,13 @@ import io.reactivex.Observable;
 
 public class EndPointMocked implements EndPoint {
 
-    private String mEmail;
-    private String mPassword;
 
     public EndPointMocked() {
-        this(LoginConstant.EMAIL, LoginConstant.PASSWORD);
-    }
-
-    public EndPointMocked(String email, String password) {
-        this.mEmail = email;
-        this.mPassword = password;
     }
 
     @Override
     public Observable<UserResponse> fetchUsers(int page) {
-        return null;
+        return Observable.just(new Gson().fromJson(page != -1 ? EndPointJson.USERS_JSON_SUCCESS
+                : EndPointJson.USERS_JSON_FAIL, UserResponse.class));
     }
 }

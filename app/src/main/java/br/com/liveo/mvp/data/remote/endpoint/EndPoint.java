@@ -1,4 +1,4 @@
-package br.com.liveo.mvp.data.remote;
+package br.com.liveo.mvp.data.remote.endpoint;
 
 import br.com.liveo.mvp.model.domain.UserResponse;
 import io.reactivex.Observable;
@@ -11,6 +11,8 @@ import retrofit2.http.Query;
 
 public interface EndPoint {
 
-    @GET(EndPointConstraint.METHOD_USERS)
+    //region Methos User
+    @GET(EndPointConstant.METHOD_USERS)
     Observable<UserResponse> fetchUsers(@Query("page") int page);
+    //endregion
 }

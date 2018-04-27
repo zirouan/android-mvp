@@ -10,9 +10,9 @@ import javax.inject.Singleton;
 import br.com.liveo.mvp.data.local.Preferences;
 import br.com.liveo.mvp.data.local.PreferencesHelper;
 import br.com.liveo.mvp.data.local.endpoint.EndPointMocked;
-import br.com.liveo.mvp.data.remote.EndPoint;
-import br.com.liveo.mvp.data.remote.helper.ApiHelper;
-import br.com.liveo.mvp.data.remote.helper.EndPointHelper;
+import br.com.liveo.mvp.data.remote.endpoint.EndPoint;
+import br.com.liveo.mvp.data.remote.endpoint.EndPointHelper;
+import br.com.liveo.mvp.data.remote.helper.HelperManager;
 import dagger.Module;
 import dagger.Provides;
 
@@ -34,11 +34,6 @@ public class HelperTestModule {
         this.preferencesHelper = new Preferences(context);
     }
 
-    public HelperTestModule(WeakReference<Context> context, String email, String password) {
-        this.endPoint = new EndPointMocked(email, password);
-        this.preferencesHelper = new Preferences(context);
-    }
-
     @Singleton
     @Provides
     PreferencesHelper providePreferencesHelper() {
@@ -54,7 +49,7 @@ public class HelperTestModule {
     @Singleton
     @Provides
     EndPointHelper provideApiEndPointHelper(EndPoint endPoint) {
-        return new ApiHelper(endPoint);
+        return new HelperManager(endPoint);
     }
 
     public PreferencesHelper getPreferencesHelper() {

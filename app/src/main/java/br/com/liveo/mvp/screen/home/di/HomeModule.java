@@ -2,10 +2,10 @@ package br.com.liveo.mvp.screen.home.di;
 
 import android.support.annotation.NonNull;
 
-import br.com.liveo.mvp.data.remote.helper.EndPointHelper;
+import br.com.liveo.mvp.data.remote.endpoint.EndPointHelper;
 import br.com.liveo.mvp.di.scopes.ActivityScoped;
 import br.com.liveo.mvp.screen.home.HomeContract;
-import br.com.liveo.mvp.screen.home.HomeInteractor;
+import br.com.liveo.mvp.screen.home.HomeRepository;
 import br.com.liveo.mvp.screen.home.HomePresenter;
 import br.com.liveo.mvp.util.scheduler.BaseScheduler;
 import br.com.liveo.mvp.util.scheduler.InjectionScheduler;
@@ -24,15 +24,15 @@ public class HomeModule {
 
     @Provides
     @ActivityScoped
-    HomeContract.Interactor provideHomeInteractor(@NonNull EndPointHelper apiEndPointHelper){
-        return new HomeInteractor(apiEndPointHelper);
+    HomeContract.Repository provideHomeRepository(@NonNull EndPointHelper apiEndPointHelper) {
+        return new HomeRepository(apiEndPointHelper);
     }
 
     @Provides
     @ActivityScoped
-    HomeContract.Presenter provideHomePresenter(@NonNull HomeContract.Interactor interactor,
+    HomeContract.Presenter provideHomePresenter(@NonNull HomeContract.Repository repository,
                                                 @NonNull BaseScheduler scheduler) {
-        return new HomePresenter(interactor, scheduler);
+        return new HomePresenter(repository, scheduler);
     }
 
     @Provides

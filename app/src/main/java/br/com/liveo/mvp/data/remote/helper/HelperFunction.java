@@ -11,7 +11,7 @@ import io.reactivex.functions.Function;
  * Created by rudsonlima on 10/9/17.
  */
 
-class ApiHelperFunction {
+class HelperFunction {
 
     @NonNull
     static Function<UserResponse, UserResponse>
