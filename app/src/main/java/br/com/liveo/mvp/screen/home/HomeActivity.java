@@ -2,7 +2,6 @@ package br.com.liveo.mvp.screen.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
